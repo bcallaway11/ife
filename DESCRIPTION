@@ -1,8 +1,8 @@
 Package: ife
-Title: What the Package Does (one line, title case)
-Version: 0.0.0.9000
-Authors@R: person("First", "Last", email = "first.last@example.com", role = c("aut", "cre"))
-Description: What the package does (one paragraph).
+Title: Treatment Effects in Interactive Fixed Effects Models
+Version: 1.0.0
+Authors@R: person("Brantly", "Callaway", email = "brantly.callaway@temple.edu", role = c("aut", "cre"))
+Description: Estimates the Average Treatment Effect for the Treated (ATT) in interactive fixed effects models.  These are models where the effect of time invariant unobserved heterogeneity can change in unrestricted ways across time.
 Depends: R (>= 3.4.4)
 License: What license is it under?
 Encoding: UTF-8

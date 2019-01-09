@@ -1,0 +1,103 @@
+library(foreign)
+mydata=read.dta("/Users/sonia/Dropbox/Sonia Projects/Interactivefixedeffectmodel/Interactive fixed effect/data/minwage_data.dta")
+treatyear=2007
+m04=subset(mydata$lemp, mydata$year == 2007 & mydata$treat==0)
+m03=subset(mydata$lemp, mydata$year == 2006 & mydata$treat==0)
+m02=subset(mydata$lemp, mydata$year == 2005 & mydata$treat==0)
+m01=subset(mydata$lemp, mydata$year == 2004 & mydata$treat==0)
+m01=matrix(m01)
+m02=matrix(m02)
+m03=matrix(m03)
+m04=matrix(m04)
+X=subset(mydata, mydata$year == 2007 & mydata$treat==0)
+rgn=matrix(X$region)
+regn=as.factor(rgn)
+x02=cbind(X$white,X$black,X$col,X$hs,X$lmedinc,X$pov,X$lpop,regn)
+incpt=rep(1,nrow(X))
+incpt=matrix(incpt)
+y=matrix(m04-m01)
+z=cbind(incpt,x02,m03)
+x1=matrix(m02-m01)
+xx=cbind(incpt,x02,x1)
+a1=t(xx)%*%z
+a2=t(z)%*%z
+a3=t(z)%*%xx
+a4=t(z)%*%y
+a5=solve(a2)
+a6=solve(a1%*%a5%*%a3)
+beta=a6%*%a1%*%a5%*%a4
+#tsls1=lm(x~instr)
+#summary(tsls1)
+#x.hat<-fitted.values(tsls1)
+#x2=cbind(x.hat,x02)
+#tsls2<-lm(y~x2)
+#summary(tsls2)
+#fit1=coef(tsls2)
+#coeff=matrix(fit1)
+alpha=beta[1,1]
+betaa=beta[10,1]
+gamma=matrix(beta[2:9,1])
+y17=subset(mydata$lemp, mydata$year == 2007 & mydata$treat==1)
+y16=subset(mydata$lemp, mydata$year == 2006 & mydata$treat==1)
+y15=subset(mydata$lemp, mydata$year == 2005 & mydata$treat==1)
+y14=subset(mydata$lemp, mydata$year == 2004 & mydata$treat==1)
+X1=subset(mydata, mydata$year == 2007 & mydata$treat==1)
+rgn1=matrix(X1$region)
+regn1=as.factor(rgn1)
+x12=cbind(X1$white,X1$black,X1$col,X1$hs,X1$lmedinc,X1$pov,X1$lpop,regn1)
+xgamma=x12%*%gamma
+meanx=mean(xgamma)
+y14=matrix(y14)
+y15=matrix(y15)
+y43=y15-y14
+y43=matrix(y43)
+ymeandif=mean(y43)
+meany14=mean(y14)
+contfact=alpha + betaa*ymeandif + meany14 + meanx
+y17=matrix(y17)
+y7mean=mean(y17)
+ATT=y7mean-contfact
+ATT
+##pretest
+y=matrix(m03-m01)
+z=cbind(incpt,x02,m04)
+x1=matrix(m02-m01)
+xx=cbind(incpt,x02,x1)
+a1=t(xx)%*%z
+a2=t(z)%*%z
+a3=t(z)%*%xx
+a4=t(z)%*%y
+a5=solve(a2)
+a6=solve(a1%*%a5%*%a3)
+beta=a6%*%a1%*%a5%*%a4
+#tsls1=lm(x~instr)
+#summary(tsls1)
+#x.hat<-fitted.values(tsls1)
+#x2=cbind(x.hat,x02)
+#tsls2<-lm(y~x2)
+#summary(tsls2)
+#fit1=coef(tsls2)
+#coeff=matrix(fit1)
+alpha=beta[1,1]
+betaa=beta[10,1]
+gamma=matrix(beta[2:9,1])
+xgamma=x12%*%gamma
+meanx=mean(xgamma)
+contfact=alpha + betaa*ymeandif + meany14 + meanx
+y16=matrix(y16)
+y6mean=mean(y16)
+preATT=y6mean-contfact
+preATT
+
+
+#' @title ife
+#' @description
+#'
+#' @param formla y ~ d where y is the outcome and d is the treatment indicator
+#' @param xformla ~x where x includes the covariates in the model
+#' @param data is the dataset
+#' ***need some indicator for the time period when treatment actually occurs***
+#' ***can probably get some "group-time" type results just by looping over all first treatment times in a step outside of this***
+ife <- function(formla, xformla, data, idname, tname) {
+
+}
