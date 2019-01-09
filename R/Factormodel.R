@@ -62,8 +62,28 @@ ife <- function(formla, xformla, data, idname, tname, treat.t) {
         ATT <- mean(YtT - Y1T) - t(XTbar)%*%delt - Ft*mean(Y2T - Y1T)
 
         ATTout[length(ATTout)+1] <- ATT
-        ## think about how to actually get result for time period 3
+        
     }
+
+    ###########################################################################
+    ## for time period 3, just use time period 4 as instrument in 1st step
+    ## handle it as a special case here and put it in the first place in ATTout
+    Y4U <- data[data[,tname]==tlist[4] & data[,dname]==0, "y"]
+    ZZU <- cbind(Y4U,XU)
+    XXU <- cbind(Y2U - Y1U, XU)
+    YYU <- as.matrix(Y3U - Y1U)
+    bet <- solve(t(ZZU)%*%XXU)%*%t(ZZU)%*%YYU
+    delt <- bet[-1]
+    Ft <- bet[1]
+    
+    ## calculate ATT
+    Y3T <- data[data[,tname]==tlist[3] & data[,dname]==1, "y"]
+    XTbar <- as.matrix(apply(XT, 2, mean))
+    ATT <- mean(Y3T - Y1T) - t(XTbar)%*%delt - Ft*mean(Y2T - Y1T)
+    ###########################################################################
+    
+
+    ATTout <- c(ATT, ATTout)
 
     ATTout
 }
