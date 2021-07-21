@@ -1,16 +1,24 @@
 Package: ife
-Title: What the Package Does (One Line, Title Case)
+Title: Treatment Effects in Interactive Fixed Effects Models
 Version: 0.0.0.9000
 Authors@R: 
-    person(given = "First",
-           family = "Last",
+    person(given = "Brantly",
+           family = "Callaway",
            role = c("aut", "cre"),
-           email = "first.last@example.com",
-           comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
-License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
-    license
+           email = "brantly.callaway@uga.edu")
+    person(given = "Sonia",
+           family = "Karami",
+           role = c("aut"),
+           email = "sonia.karami88@gmail.com")
+Description: This is code to estimate treatment effects in interactive fixed effects models where the number of available time periods is relatively small.  It implements the approach of Callaway and Karami (2020).  Basically, the idea is to use identify/estimate the parameters of an interactive fixed effects model for untreated potential outcomes using the group of units that do not participate in the treatment by exploiting that the effect of at least one particular covariate does not change over time (this condition may not be met in all applications).  See the paper for more details.  This setup is likely to be attractive in applications where the distribution of time invariant unobservables is different between the treated group and untreated group and when the effect of these time invariant unobservables can vary over time.  This situation would cause alternative identification strategies such as difference-in-differences or individual-specific linear trends to generally fail.  
+License: GPL-3
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
+Depends: 
+    R (>= 2.10)
+Imports:
+    pte
+Remotes:
+    github::bcallaway11/pte
