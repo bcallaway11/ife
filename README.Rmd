@@ -19,8 +19,8 @@ knitr::opts_chunk$set(
 
 ```{r, echo=FALSE, results="hide", warning=FALSE, message=FALSE}
 #library(pte)
-devtools::load_all("~/Dropbox/ife")
 devtools::load_all("~/Dropbox/pte")
+devtools::load_all("~/Dropbox/ife")
 load("~/Dropbox/ife/data/job_displacement_data.rda")
 library(ggplot2)
 library(dplyr)
@@ -43,14 +43,17 @@ Next, we provide a brief example using the application from Callaway and Karami 
 
 
 ```{r}
-ife(yname="earn",
-    gname="first.displaced",
-    tname="year",
-    idname="id",
-    data=job_displacement_data,
-    nife=1,
-    xformla=~1,
-    zformla=~afqt,
-    biters=10,
-    cl=1)
+res <- ife(yname="earn",
+           gname="first.displaced",
+           tname="year",
+           idname="id",
+           data=job_displacement_data,
+           nife=1,
+           xformla=~1,
+           zformla=~afqt,
+           anticipation=1,
+           biters=100)
+
+summary(res)
+ggpte(res)
 ```
