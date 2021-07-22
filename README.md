@@ -18,18 +18,6 @@ development version of the package can be installed from github by
 ``` r
 # install.packages("devtools")
 devtools::install_github("bcallaway11/ife")
-#> Downloading GitHub repo bcallaway11/ife@HEAD
-#> 
-#>      checking for file ‘/tmp/RtmpQnQbCK/remotes1abd16cc1381/bcallaway11-ife-d26fe4c/DESCRIPTION’ ...  ✔  checking for file ‘/tmp/RtmpQnQbCK/remotes1abd16cc1381/bcallaway11-ife-d26fe4c/DESCRIPTION’
-#>   ─  preparing ‘ife’:
-#>    checking DESCRIPTION meta-information ...  ✔  checking DESCRIPTION meta-information
-#>   ─  checking for LF line-endings in source and make files and shell scripts
-#>   ─  checking for empty or unneeded directories
-#>   ─  building ‘ife_0.0.0.9000.tar.gz’
-#>      
-#> 
-#> Installing package into '/tmp/Rtmpwbx5mK/temp_libpath1a452a28bc52'
-#> (as 'lib' is unspecified)
 ```
 
 ## Example
@@ -53,17 +41,17 @@ summary(res)
 #> 
 #> Overall ATT:  
 #>        ATT    Std. Error     [ 95%  Conf. Int.]  
-#>  -3601.244      1297.023  -6143.363   -1059.124 *
+#>  -3601.244      1181.444  -5916.831   -1285.656 *
 #> 
 #> 
 #> Dynamic Effects:
 #>  Event Time   Estimate Std. Error     [95%  Conf. Band]  
-#>          -6  -128.1452   926.7562 -2305.500   2049.2097  
-#>          -4  -147.2724   711.4859 -1818.863   1524.3186  
-#>          -2  -604.1940   626.6026 -2076.357    867.9691  
-#>           0 -3676.2366  1172.3892 -6430.691   -921.7826 *
-#>           2 -3718.2831  1707.3208 -7729.525    292.9587  
-#>           4  -288.4408  2345.5403 -5799.139   5222.2572  
+#>          -6  -128.1452   945.3208 -2547.989   2291.6984  
+#>          -4  -147.2724   754.2751 -2078.075   1783.5301  
+#>          -2  -604.1940   672.3056 -2325.170   1116.7821  
+#>           0 -3676.2366   916.0095 -6021.049  -1331.4245 *
+#>           2 -3718.2831  1662.4422 -7973.823    537.2565  
+#>           4  -288.4408  2746.5356 -7319.056   6742.1745  
 #> ---
 #> Signif. codes: `*' confidence band does not cover 0
 ggpte(res)
