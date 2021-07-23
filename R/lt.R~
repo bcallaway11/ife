@@ -1,32 +1,28 @@
-#' @title ife
+#' @title lt
 #'
-#' @description Compute treatment effects in interactive fixed effects models
-#'  with a small number of time periods
+#' @description Compute treatment effects in model with linear trends for
+#' untreated potential outcomes
 #'
 #' @inheritParams pte:pte
-#' @param nife the number of interactive fixed effects to include in the model
 #'
 #' @return \code{pte::pte_results} object
 #'
 #' @export
-ife <- function(yname,
-                gname,
-                tname,
-                idname,
-                data,
-                nife,
-                xformla=~1,
-                zformla,
-                ret_ife_regs=TRUE,
-                anticipation=0,
-                cband=TRUE,
-                alp=0.05,
-                boot_type="multiplier",
-                biters=100,
-                cl=1) {
+lt <- function(yname,
+               gname,
+               tname,
+               idname,
+               data,
+               xformla=~1,
+               anticipation=0,
+               cband=TRUE,
+               alp=0.05,
+               boot_type="multiplier",
+               biters=100,
+               cl=1) {
 
   # set this in order to use `setup_pte` function provided by `pte` package
-  required_pre_periods <- nife+1
+  required_pre_periods <- 2
   
   res <- pte(yname=yname,
              gname=gname,

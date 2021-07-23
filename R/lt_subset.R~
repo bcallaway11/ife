@@ -1,0 +1,31 @@
+#' @title lt_subset
+#'
+#' @description A function for obtaining the correct subset in a staggered treatment
+#' adoption setup with panel data using a linear trends model for untreated potential
+#' outcomes.
+#'
+#' @param data the full dataset
+#' @param g the current group
+#' @param tp the current time period
+#' @param ... extra arguments to get the subset correct
+#'
+#' @return list that contains correct subset of data, \code{n1}
+#'  number of observations
+#'  in this subset, and \code{disidx} a vector of the correct ids for this
+#'  subset.
+#'
+#' @export
+lt_subset <- function(data, g, tp, nife, anticipation=0, ...) {
+
+
+  # this is exactly the same as for ife_subset, we just don't have to
+  # deal with possibly multiple interactive fixed effects =>
+  # just call that function with nife specified to be 1
+
+  ife_subset(data=data,
+             g=g,
+             tp=tp,
+             nife=1,
+             anticipation=anticipation,
+             ...)
+}
