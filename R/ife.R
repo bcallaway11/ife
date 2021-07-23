@@ -17,12 +17,15 @@ ife <- function(yname,
                 nife,
                 xformla=~1,
                 zformla,
+                ret_ife_regs=TRUE,
                 anticipation=0,
                 alp=0.05,
                 biters=100,
                 cl=1) {
 
+  # set this in order to use `setup_pte` function provided by `pte` package
   required_pre_periods <- nife+1
+  
   res <- pte(yname=yname,
              gname=gname,
              tname=tname,
@@ -34,6 +37,7 @@ ife <- function(yname,
              nife=nife,
              xformla=xformla,
              zformla=zformla,
+             ret_ife_regs=ret_ife_regs,
              required_pre_periods=required_pre_periods,
              anticipation=anticipation,
              alp=alp,

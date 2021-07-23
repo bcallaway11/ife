@@ -106,5 +106,9 @@ ife_attgt <- function(gt_data, nife=1,
   this.if[idlist %in% comparison_ids] <- first_step_if
   this.if[idlist %in% treated_ids] <- second_step_if
 
-  attgt_if(attgt, inf_func=this.if)
+  if (!ret_ife_regs) {
+    ife_reg <- NULL
+  }
+  
+  attgt_if(attgt, inf_func=this.if, extra_gt_returns=ife_reg)
 }

@@ -32,26 +32,27 @@ res <- ife(yname="earn",
            idname="id",
            data=job_displacement_data,
            nife=1,
-           xformla=~1,
-           zformla=~afqt,
+           xformla=~EDUC + race + gender,
+           zformla=~EDUC + race + gender + afqt,
            anticipation=1,
-           biters=100)
+           alp=0.1,
+           biters=1000)
 
 summary(res)
 #> 
 #> Overall ATT:  
-#>        ATT    Std. Error     [ 95%  Conf. Int.]  
-#>  -3601.244      1181.444  -5916.831   -1285.656 *
+#>        ATT    Std. Error     [ 90%  Conf. Int.]  
+#>  -3913.851      1192.724  -5875.707   -1951.994 *
 #> 
 #> 
 #> Dynamic Effects:
-#>  Event Time   Estimate Std. Error     [95%  Conf. Band]  
-#>          -6  -128.1452   945.3208 -2547.989   2291.6984  
-#>          -4  -147.2724   754.2751 -2078.075   1783.5301  
-#>          -2  -604.1940   672.3056 -2325.170   1116.7821  
-#>           0 -3676.2366   916.0095 -6021.049  -1331.4245 *
-#>           2 -3718.2831  1662.4422 -7973.823    537.2565  
-#>           4  -288.4408  2746.5356 -7319.056   6742.1745  
+#>  Event Time   Estimate Std. Error     [90%  Conf. Band]  
+#>          -6   -63.8360   939.6738 -2209.276   2081.6039  
+#>          -4   -63.4326   699.6486 -1660.853   1533.9877  
+#>          -2  -664.5203   617.0093 -2073.261    744.2200  
+#>           0 -3848.8739  1051.8789 -6250.498  -1447.2502 *
+#>           2 -4179.1319  1492.4485 -7586.653   -771.6106 *
+#>           4 -1454.0791  2640.8284 -7483.553   4575.3947  
 #> ---
 #> Signif. codes: `*' confidence band does not cover 0
 ggpte(res)
