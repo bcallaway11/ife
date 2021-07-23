@@ -29,12 +29,12 @@
 #' @return
 ife_attgt <- function(gt_data, nife=1,
                       xformla=~1, zformla, anticipation=0,  
-                      ret_ife_regs=FALSE) {
+                      ret_ife_regs=FALSE, ...) {
 
   # base period is the first one in this subset of the data
   base.period <- min(gt_data$period)
   tp <- max(gt_data$period)
-  this.n <- nrow(gt_data)/3
+  this.n <- nrow(gt_data)/(nife+2)
   
   # take difference with respect to base period
   this.data <- gt_data %>%

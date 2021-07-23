@@ -49,10 +49,11 @@ res <- ife(yname="earn",
            idname="id",
            data=job_displacement_data,
            nife=1,
-           xformla=~1,
-           zformla=~afqt,
+           xformla=~EDUC + race + gender,
+           zformla=~EDUC + race + gender + afqt,
            anticipation=1,
-           biters=100)
+           alp=0.1,
+           biters=1000)
 
 summary(res)
 ggpte(res)
