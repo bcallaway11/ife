@@ -60,7 +60,7 @@ res <- ife(yname="earn",
            cl=10)
 
 summary(res)
-ggpte(res)
+ggpte(res) + ylim(c(-6000,6000))
 ```
 
 
@@ -83,5 +83,5 @@ lt_res <- linear_trends(yname="earn",
                         cl=10)
 
 summary(lt_res)
-ggpte(lt_res)
+ggpte(lt_res) + ylim(c(-6000,6000))
 ```
