@@ -42,8 +42,8 @@ ife_attgt <- function(gt_data, nife=1,
     dplyr::mutate(dY_base=(Y-Y[period==base.period])) %>%
     as.data.frame()
   # and drop base period
-  this.data <- subset(this.data, period != base.period)
-
+  if (nife > 0) this.data <- subset(this.data, period != base.period)
+  
   
   # split pre and post data, eventually merge them back
   post.data <- subset(this.data, name == "post")
@@ -62,7 +62,7 @@ ife_attgt <- function(gt_data, nife=1,
   this.data <- dplyr::inner_join(post.data, pre.data, by="id")
 
   # hack to get extra column names for dY variables
-  dY_names <- this.data %>% select(starts_with("dY_base")) %>% colnames
+  dY_names <- if (nife >  0) this.data %>% select(starts_with("dY_base")) %>% colnames else character(0)
   
   # formula for y ~ x
   outcome_formla <- BMisc::toformula(yname="dY_post", xnames=c(BMisc::rhs.vars(xformla), dY_names))
@@ -79,7 +79,8 @@ ife_attgt <- function(gt_data, nife=1,
 
   #V <- bread(ife_reg) %*% (t(first_step_if) %*% first_step_if / ife_reg$n) %*% bread(ife_reg)
   # get attgt
-  attgt <- mean(subset(this.data, D==1)$dY_post) - mean(predict(ife_reg, newdata=subset(this.data, D==1)))
+  attgt_i <- subset(this.data, D==1)$dY_post - predict(ife_reg, newdata=subset(this.data, D==1))
+  attgt <- mean(attgt_i)
 
   # get influence function for this part too
   this.treated <- subset(this.data, D==1)
@@ -106,9 +107,44 @@ ife_attgt <- function(gt_data, nife=1,
   this.if[idlist %in% comparison_ids] <- first_step_if
   this.if[idlist %in% treated_ids] <- second_step_if
 
+
+  # model selection
+  # cross-validation criteria
+  Y <- ife_reg$y
+  bet <- as.matrix(ife_reg$coefficients)
+  X <- model.matrix(ife_reg$terms$regressors, data=ife_reg$model)
+  Z <- model.matrix(ife_reg$terms$instruments, data=ife_reg$model)
+  P <- Z %*% solve( t(Z) %*% Z) %*% t(Z)
+  PX <- P %*% X
+  PZ <- P %*% Z
+  #P <- X %*% solve( t(Z) %*% X) %*% t(Z)
+  #PP <- X %*% solve( t(PZ) %*% PX) %*% t(PZ)
+  PP <- X %*% solve( t(PX) %*% PX) %*% t(PX)
+  h <- diag(PP)
+  ehat <- Y - X %*% bet
+  eloo <- ehat / (1-h)
+  cv_untreated <- mean(eloo^2)
+
+  # cross-validation for treated (this is useful in pre-treatment periods)
+  cv_treated <- mean(attgt_i^2)
+
+  # bayesian information criteria
+  #Z <- model.matrix(zformla, data=this.comparison)
+  u <- ife_reg$residuals
+  n <- nrow(Z)
+  k <- ncol(X)
+  l <- ncol(Z)
+  W <- (1/n) * t(Z) %*% Z
+  gbar <- as.matrix(apply( (Z*u), 2, mean))
+  J <-  n * t(gbar) %*% solve(W) %*% (gbar)
+
+  bic <- J - log(n)*(l - nife - k)#log(n)*(-nife)#0.75*nrow(W)#0.75( (q-p)(T-p) - k)
+
   if (!ret_ife_regs) {
     ife_reg <- NULL
   }
   
-  attgt_if(attgt, inf_func=this.if, extra_gt_returns=ife_reg)
+  extra_returns <- list(ife_reg=ife_reg, eloo=eloo, cv_untreated=cv_untreated, cv_treated=cv_treated, bic=bic)
+  
+  attgt_if(attgt, inf_func=this.if, extra_gt_returns=extra_returns)
 }
