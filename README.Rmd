@@ -61,8 +61,14 @@ res <- ife(yname="earn",
 
 summary(res)
 ggpte(res)
+```
 
 
+We also have some code for running *individual-specific linear trends models*.  These are a special case of the interactive fixed effects models that we consider in the paper, but where the factors $F_t$ are restricted to be equal to $t$.  We mostly argue *against* these sorts of models in the paper, but one advantage is that they do not require any restrictions/assumptions about finding a covariate whose effects do not change over time.
+
+This code also implements a version of linear trends that is specific to untreated potential outcomes.  Presumably, many of the same criticisms (and perhaps more actually) in recent papers about implementing DID with a two-way fixed effects regression likely apply when one includes individual-specific linear trends in the same sort of specification.  The code we provide here circumvents those issues.
+
+```{r}
 lt_res <- linear_trends(yname="earn",
                         gname="first.displaced",
                         tname="year",
@@ -78,22 +84,4 @@ lt_res <- linear_trends(yname="earn",
 
 summary(lt_res)
 ggpte(lt_res)
-
-
-library(did)
-did_res <- att_gt(yname="earn",
-                  gname="first.displaced",
-                  tname="year",
-                  idname="id",
-                  data=job_displacement_data,
-                  anticipation=2,
-                  cband=FALSE,
-                  alp=0.10,
-                  biters=1000,
-                  control_group="notyettreated",
-                  est_method="reg")
-
-did_es <- aggte(did_res, type="dynamic")
-did_overall <- aggte(did_res, type="group")
-ggdid(did_es)
 ```

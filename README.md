@@ -34,28 +34,83 @@ res <- ife(yname="earn",
            nife=1,
            xformla=~EDUC + race + gender,
            zformla=~EDUC + race + gender + afqt,
+           ret_ife_regs=TRUE,
            anticipation=1,
-           alp=0.1,
-           biters=1000)
+           cband=FALSE,
+           alp=0.10,
+           boot_type="multiplier",
+           biters=1000,
+           cl=10)
 
 summary(res)
 #> 
 #> Overall ATT:  
 #>        ATT    Std. Error     [ 90%  Conf. Int.]  
-#>  -3913.851      1192.724  -5875.707   -1951.994 *
+#>  -3913.851      1155.263   -5814.09   -2013.611 *
 #> 
 #> 
 #> Dynamic Effects:
 #>  Event Time   Estimate Std. Error     [90%  Conf. Band]  
-#>          -6   -63.8360   939.6738 -2209.276   2081.6039  
-#>          -4   -63.4326   699.6486 -1660.853   1533.9877  
-#>          -2  -664.5203   617.0093 -2073.261    744.2200  
-#>           0 -3848.8739  1051.8789 -6250.498  -1447.2502 *
-#>           2 -4179.1319  1492.4485 -7586.653   -771.6106 *
-#>           4 -1454.0791  2640.8284 -7483.553   4575.3947  
+#>          -6   -63.8360   908.0949 -1557.519   1429.8472  
+#>          -4   -63.4326   687.9885 -1195.073   1068.2078  
+#>          -2  -664.5203   591.3443 -1637.195    308.1545  
+#>           0 -3848.8739  1103.0442 -5663.220  -2034.5276 *
+#>           2 -4179.1319  1559.5926 -6744.433  -1613.8303 *
+#>           4 -1454.0791  2594.5413 -5721.720   2813.5616  
 #> ---
 #> Signif. codes: `*' confidence band does not cover 0
 ggpte(res)
 ```
 
 <img src="man/figures/README-unnamed-chunk-4-1.png" width="100%" />
+
+We also have some code for running *individual-specific linear trends
+models*. These are a special case of the interactive fixed effects
+models that we consider in the paper, but where the factors \(F_t\) are
+restricted to be equal to \(t\). We mostly argue *against* these sorts
+of models in the paper, but one advantage is that they do not require
+any restrictions/assumptions about finding a covariate whose effects do
+not change over time.
+
+This code also implements a version of linear trends that is specific to
+untreated potential outcomes. Presumably, many of the same criticisms
+(and perhaps more actually) in recent papers about implementing DID with
+a two-way fixed effects regression likely apply when one includes
+individual-specific linear trends in the same sort of specification. The
+code we provide here circumvents those issues.
+
+``` r
+lt_res <- linear_trends(yname="earn",
+                        gname="first.displaced",
+                        tname="year",
+                        idname="id",
+                        data=job_displacement_data,
+                        xformla=~1,
+                        anticipation=1,
+                        cband=FALSE,
+                        alp=0.10,
+                        boot_type="multiplier",
+                        biters=1000,
+                        cl=10)
+
+summary(lt_res)
+#> 
+#> Overall ATT:  
+#>        ATT    Std. Error     [ 90%  Conf. Int.]  
+#>  -3610.586      1306.883  -5760.217   -1460.954 *
+#> 
+#> 
+#> Dynamic Effects:
+#>  Event Time   Estimate Std. Error     [90%  Conf. Band]  
+#>          -6   -80.0095   839.3591 -1460.632   1300.6134  
+#>          -4  -185.5270   726.5295 -1380.562   1009.5076  
+#>          -2  -659.0171   664.8853 -1752.656    434.6219  
+#>           0 -3751.3352  1122.3485 -5597.434  -1905.2361 *
+#>           2 -3869.5496  1780.7504 -6798.623   -940.4757 *
+#>           4  -376.1558  3081.4976 -5444.768   4692.4567  
+#> ---
+#> Signif. codes: `*' confidence band does not cover 0
+ggpte(lt_res)
+```
+
+<img src="man/figures/README-unnamed-chunk-5-1.png" width="100%" />
