@@ -60,7 +60,7 @@ res <- ife(yname="earn",
            cl=10)
 
 summary(res)
-ggpte(res) + ylim(c(-6000,6000))
+ggpte(res) + ylim(c(-7000,7000))
 ```
 
 
@@ -74,7 +74,7 @@ lt_res <- linear_trends(yname="earn",
                         tname="year",
                         idname="id",
                         data=job_displacement_data,
-                        xformla=~1,
+                        xformla=~EDUC + race + gender,
                         anticipation=1,
                         cband=FALSE,
                         alp=0.10,
@@ -83,5 +83,5 @@ lt_res <- linear_trends(yname="earn",
                         cl=10)
 
 summary(lt_res)
-ggpte(lt_res) + ylim(c(-6000,6000))
+ggpte(lt_res) + ylim(c(-7000,7000))
 ```
