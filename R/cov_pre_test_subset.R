@@ -1,9 +1,8 @@
-#' @title ife_subset
+#' @title cov_pre_test_subset
 #'
 #' @description A function for obtaining the correct subset in a staggered treatment
-#' adoption setup with panel data.  This is the subset of not yet treated
-#' observations in a particular time period and in the previous
-#' \code{nife+1} periods where \code{nife} is the number of interactive fixed effects.  
+#' adoption setup with panel data for conducting a pre-test that the effect of
+#' covariates does not change over time.
 #'
 #' @param data the full dataset
 #' @param g the current group
@@ -17,7 +16,7 @@
 #'  subset.
 #'
 #' @export
-ife_subset <- function(data, g, tp, nife, anticipation=0, ...) {
+cov_pre_test_subset <- function(data, g, tp, nife, anticipation=0, ...) {
 
   # pre-treatment period used to difference out unobserved heterogeneity (w/o ife)
   main.base.period <- g - nife - 1 - anticipation
@@ -34,7 +33,8 @@ ife_subset <- function(data, g, tp, nife, anticipation=0, ...) {
     base.period <- tp - nife - 1
   } else {
     # this is a post-treatment period
-    base.period <- main.base.period
+    #base.period <- main.base.period
+    return(list(gt_data=data.frame(), n1=0, disidx=NULL))
   }
   #----------------------------------------------------
 
@@ -49,7 +49,7 @@ ife_subset <- function(data, g, tp, nife, anticipation=0, ...) {
   this.data$name <- ifelse(this.data$period==tp, "post", "pre")
 
   # variable to indicate local treatment status
-  this.data$D <- 1*(this.data$G==g)
+  this.data$D <- 0 # 1*(this.data$G==g)
   
   # make this.data into gt_data_frame object
   this.data <- gt_data_frame(this.data)

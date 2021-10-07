@@ -1,34 +1,27 @@
-#-----------------------------------------------------------------------------
-#
-# This is copy and paste of pte::setup_data, but adjusted to drop some
-# periods at the end (where we do not have enough groups left to identify
-# the model)
-#
-#-----------------------------------------------------------------------------
-
-#' @title staggered_ife_setup_data
+#' @title Setup data for covariate pre-test
 #'
-#' @description Estimate treatment effects in an interactive fixed effects
-#'  model for untreated potential outcomes by exploiting staggered treatment
-#'  adoption.
+#' @description Sets up the data for conducting covariate pre-test
 #'
-#' @inheritParams pte::setup_pte
+#' @inheritParams setup_pte
 #'
 #' @return \code{pte_params} object
+#'
 #' @export
-setup_pte <- function(yname,
-                      gname,
-                      tname,
-                      idname,
-                      data,
-                      required_pre_periods=1,
-                      anticipation=0,
-                      cband=TRUE,
-                      alp=0.05,
-                      boot_type=boot_type,
-                      biters=100,
-                      cl=1,
-                      ...) {
+setup_cov_pre_test <- function(yname,
+                               gname,
+                               tname,
+                               idname,
+                               data,
+                               nife=1,
+                               anticipation=0,
+                               cband=TRUE,
+                               alp=0.05,
+                               boot_type=boot_type,
+                               biters=100,
+                               cl=1,
+                               ...) {
+
+  required_pre_periods <- nife + 1
   
   data <- as.data.frame(data)
   
@@ -76,14 +69,7 @@ setup_pte <- function(yname,
   # \code{required_pre_periods} time periods
   # these are the ones we loop over below
   time.periods <- sort(time.periods)[-seq(1,required_pre_periods)]
-
-  #-----------------------------------------------------------------------------
-  # this is what's different relative to `setup_pte`
-  #-----------------------------------------------------------------------------
-  last_period_plus_one <- max(time.periods) + 1
-  time.periods <- time.periods[ seq(last_period_plus_one, last_period_plus_one - nife)]
-  #-----------------------------------------------------------------------------
-  
+  #time.periods <- time.periods[1:(length(time.periods) - nife)]
   groups <- groups[groups %in% time.periods]
   # account for anticipation
   groups <- groups[ groups >= (min(time.periods)+anticipation) ]

@@ -1,4 +1,4 @@
-#' @title ife_subset
+#' @title cov_pre_test_subset
 #'
 #' @description A function for obtaining the correct subset in a staggered treatment
 #' adoption setup with panel data.  This is the subset of not yet treated

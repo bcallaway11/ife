@@ -43,7 +43,8 @@ ife_attgt <- function(gt_data, nife=1,
     as.data.frame()
   # and drop base period
   if (nife > 0) this.data <- subset(this.data, period != base.period)
-  
+  # add a lag variable to the data (hack!), just for the name
+  this.data$.lag <- rev(sort(unique(gt_data$period)))[2]- this.data$period + 1
   
   # split pre and post data, eventually merge them back
   post.data <- subset(this.data, name == "post")
@@ -52,9 +53,12 @@ ife_attgt <- function(gt_data, nife=1,
 
   # convert pre-data into cross-sectional data
   pre.data <- pre.data %>%
-    select(id, period, dY_base) %>%
+    select(id, .lag, dY_base) %>%
     dplyr::group_by(id) %>%
-    tidyr::pivot_wider(names_prefix="dY_base", names_from=period, values_from=dY_base) %>%
+    tidyr::pivot_wider(names_prefix="dY_base",
+                       names_from=.lag,
+                       names_glue="dLagY{.lag}_base",
+                       values_from=dY_base) %>%
     as.data.frame()
 
   # merge data, this is one row per unit and can use to run regressions
@@ -62,7 +66,8 @@ ife_attgt <- function(gt_data, nife=1,
   this.data <- dplyr::inner_join(post.data, pre.data, by="id")
 
   # hack to get extra column names for dY variables
-  dY_names <- if (nife >  0) this.data %>% select(starts_with("dY_base")) %>% colnames else character(0)
+  dY_names <- if (nife >  0) this.data %>% select(starts_with("dLagY")) %>% colnames else character(0)
+  dY_names <- rev(dY_names)
   
   # formula for y ~ x
   outcome_formla <- BMisc::toformula(yname="dY_post", xnames=c(BMisc::rhs.vars(xformla), dY_names))
@@ -71,7 +76,8 @@ ife_attgt <- function(gt_data, nife=1,
   this.comparison <- subset(this.data, D==0)# subset(this.data, G != g)
   comparison_ids <- this.comparison$id
   comparison_p <- length(comparison_ids)/this.n
-  ife_reg <- AER::ivreg(outcome_formla, instruments=zformla, data=this.comparison)
+  ife_reg <- ivreg::ivreg(outcome_formla, instruments=zformla, data=this.comparison)
+  #ife_reg <- estimatr::iv_robust
   # get the influence function from the first step
   first_step_if <- as.matrix(sandwich::estfun(ife_reg))
   first_step_if <- first_step_if %*% sandwich::bread(ife_reg)
@@ -117,17 +123,30 @@ ife_attgt <- function(gt_data, nife=1,
   P <- Z %*% solve( t(Z) %*% Z) %*% t(Z)
   PX <- P %*% X
   PZ <- P %*% Z
-  #P <- X %*% solve( t(Z) %*% X) %*% t(Z)
-  #PP <- X %*% solve( t(PZ) %*% PX) %*% t(PZ)
   PP <- X %*% solve( t(PX) %*% PX) %*% t(PX)
   h <- diag(PP)
   ehat <- Y - X %*% bet
   eloo <- ehat / (1-h)
   cv_untreated <- mean(eloo^2)
 
+  ## # K fold cross validation for treated group
+  ## nu <- nrow(this.comparison)
+  ## fold <- sample(1:5, size=nu, replace=TRUE)
+  ## eloo <- rep(NA, nu)
+  ## for (i in 1:5) {
+  ##   kfold.comparison <- fold!=i
+  ##   kfold <- fold==i
+  ##   kfold.iv.coef <- coef(ivreg::ivreg(Y[kfold.comparison] ~ X[kfold.comparison,], ~Z[kfold.comparison,]))
+  ##   kfold.iv.coef <- as.matrix(na.omit(kfold.iv.coef))
+  ##   eloo[kfold] <- Y[kfold] - X[kfold,,drop=FALSE]%*%kfold.iv.coef
+  ## }
+  ## cv_untreated <- mean(eloo^2)
+  
   # cross-validation for treated (this is useful in pre-treatment periods)
   cv_treated <- mean(attgt_i^2)
 
+  #browser()
+  
   # bayesian information criteria
   #Z <- model.matrix(zformla, data=this.comparison)
   u <- ife_reg$residuals
@@ -138,7 +157,7 @@ ife_attgt <- function(gt_data, nife=1,
   gbar <- as.matrix(apply( (Z*u), 2, mean))
   J <-  n * t(gbar) %*% solve(W) %*% (gbar)
 
-  bic <- J - log(n)*(l - nife - k)#log(n)*(-nife)#0.75*nrow(W)#0.75( (q-p)(T-p) - k)
+  bic <- J - log(n)*(l-k+1) # k already includes an extra term for each IFE #J - log(n)*(l - nife - k)#log(n)*(-nife)#0.75*nrow(W)#0.75( (q-p)(T-p) - k)
 
   if (!ret_ife_regs) {
     ife_reg <- NULL

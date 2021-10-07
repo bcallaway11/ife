@@ -71,7 +71,7 @@ staggered_ife_attgt <- function(gt_data,
   comparison_ids <- this.comparison$id
   comparison_p <- length(comparison_ids)/this.n
 
-  ife_reg <- AER::ivreg(outcome_formla, instruments=zformla, data=this.comparison)
+  ife_reg <- ivreg::ivreg(outcome_formla, instruments=zformla, data=this.comparison)
   # get the influence function from the first step
   first_step_if <- as.matrix(sandwich::estfun(ife_reg))
   first_step_if <- first_step_if %*% sandwich::bread(ife_reg)
