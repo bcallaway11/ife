@@ -4,7 +4,7 @@
 #'  with a small number of time periods by exploiting staggered treatment
 #'  adoption
 #'
-#' @inheritParams pte:pte
+#' @inheritParams ife
 #' @param nife the number of interactive fixed effects to include in the model
 #'
 #' @return \code{pte::pte_results} object

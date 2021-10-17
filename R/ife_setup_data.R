@@ -4,6 +4,8 @@
 #' @description Setup panel treatment effects parameters
 #'
 #' @inheritParams pte::pte_params
+#' @inheritParams ife
+#' @param ... extra arguments
 #'
 #' @export
 ife_setup_pte <- function(yname,

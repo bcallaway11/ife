@@ -4,11 +4,7 @@
 #' adoption setup with panel data for conducting a pre-test that the effect of
 #' covariates does not change over time.
 #'
-#' @param data the full dataset
-#' @param g the current group
-#' @param tp the current time period
-#' @param nife the number of interactive fixed effects
-#' @param ... extra arguments to get the subset correct
+#' @inheritParams ife_subset
 #'
 #' @return list that contains correct subset of data, \code{n1}
 #'  number of observations

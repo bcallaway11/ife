@@ -9,12 +9,14 @@
 #-----------------------------------------------------------------------------
 
 
-#' @title compute.ife_attgt
+#' @title ife_attgt
 #' @description Computes estimates of ATT(g,t), overall ATT, and dynamic effects
 #'  under interactive fixed effects model for untreated potential outcomes
 #'  using the approach in Callaway and Karami (2021)
 #'
-#' @inheritParams did::compute.att_gt
+#' @param gt_data data frame that is local to the specific groups
+#'  and times for which we'll be computing a treatment efect
+#'  estimate.
 #' @param nife The number of interactive fixed effects.  Default is 1.
 #' @param xformla Formula for which covariates to include in the model.  Default is ~1.
 #' @param zformla Formula for moment conditions to identify interactive fixed effects
@@ -25,8 +27,9 @@
 #'  is 0.  This is in ``periods''; e.g., code will work in time periods are
 #'  equally spaced but 2 years apart.  In this case, to allow for treatment
 #'  anticipation of 2 year (<=> 1 period), set \code{anticipation = 1}.
+#' @param ... extra arguments
 #'
-#' @return
+#' @return pte::attgt_if object
 ife_attgt <- function(gt_data, nife=1,
                       xformla=~1, zformla, anticipation=0,  
                       ret_ife_regs=FALSE, ...) {

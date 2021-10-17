@@ -14,6 +14,10 @@ staggered_ife_attgt(
 )
 }
 \arguments{
+\item{gt_data}{data frame that is local to the specific groups
+and times for which we'll be computing a treatment efect
+estimate.}
+
 \item{nife}{The number of interactive fixed effects.  Default is 1.}
 
 \item{xformla}{Formula for which covariates to include in the model.  Default is ~1.}
@@ -24,6 +28,8 @@ equally spaced but 2 years apart.  In this case, to allow for treatment
 anticipation of 2 year (<=> 1 period), set \code{anticipation = 1}.}
 
 \item{ret_ife_regs}{Whether or not to return the first stage ife regressions; default is FALSE.}
+
+\item{...}{extra arguments}
 }
 \value{
 \code{pte::attgt_if} object

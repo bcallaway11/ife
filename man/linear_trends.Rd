@@ -19,6 +19,40 @@ linear_trends(
   cl = 1
 )
 }
+\arguments{
+\item{yname}{Name of outcome in \code{data}}
+
+\item{gname}{Name of group in \code{data}}
+
+\item{tname}{Name of time period in \code{data}}
+
+\item{idname}{Name of id in \code{data}}
+
+\item{data}{balanced panel data}
+
+\item{xformla}{Formula for which covariates to include in the model.  Default is ~1.}
+
+\item{anticipation}{Number of periods that treatment is anticipated.  Default
+is 0.  This is in ``periods''; e.g., code will work in time periods are
+equally spaced but 2 years apart.  In this case, to allow for treatment
+anticipation of 2 year (<=> 1 period), set \code{anticipation = 1}.}
+
+\item{cband}{whether or not to compute a uniform (instead of
+pointwise) confidence band}
+
+\item{alp}{significance level; default is 0.05}
+
+\item{boot_type}{should be one of "multiplier" (the default) or "empirical".
+The multiplier bootstrap is generally much faster, but \code{attgt_fun} needs
+to provide an expression for the influence function (which could be challenging
+to figure out).  If no influence function is provided, then the \code{pte}
+package will use the empirical bootstrap no matter what the value of this
+parameter.}
+
+\item{biters}{number of bootstrap iterations; default is 100}
+
+\item{cl}{number of clusters to be used when bootstrapping; default is 1}
+}
 \value{
 \code{pte::pte_results} object
 }

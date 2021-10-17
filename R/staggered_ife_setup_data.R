@@ -12,7 +12,13 @@
 #'  model for untreated potential outcomes by exploiting staggered treatment
 #'  adoption.
 #'
+#' @inheritParams ife_setup_pte
 #' @inheritParams pte::setup_pte
+#' @param required_pre_periods the number of pre-treatment time
+#'  periods that are needed
+#' @param cband whether to compute a uniform (instead of pointwise)
+#'  confidence band
+#' @param boot_type type of bootstrap
 #'
 #' @return \code{pte_params} object
 #' @export

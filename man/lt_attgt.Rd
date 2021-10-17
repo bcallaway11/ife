@@ -7,12 +7,18 @@
 lt_attgt(gt_data, xformla = ~1, anticipation = 0, ...)
 }
 \arguments{
+\item{gt_data}{data frame that is local to the specific groups
+and times for which we'll be computing a treatment efect
+estimate.}
+
 \item{xformla}{Formula for which covariates to include in the model.  Default is ~1.}
 
 \item{anticipation}{Number of periods that treatment is anticipated.  Default
 is 0.  This is in ``periods''; e.g., code will work in time periods are
 equally spaced but 2 years apart.  In this case, to allow for treatment
 anticipation of 2 year (<=> 1 period), set \code{anticipation = 1}.}
+
+\item{...}{extra arguments}
 }
 \value{
 \code{attgt_if} object

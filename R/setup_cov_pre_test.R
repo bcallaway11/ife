@@ -2,7 +2,7 @@
 #'
 #' @description Sets up the data for conducting covariate pre-test
 #'
-#' @inheritParams setup_pte
+#' @inheritParams ife_setup_pte
 #'
 #' @return \code{pte_params} object
 #'

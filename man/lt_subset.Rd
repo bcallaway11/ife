@@ -13,6 +13,9 @@ lt_subset(data, g, tp, anticipation = 0, ...)
 
 \item{tp}{the current time period}
 
+\item{anticipation}{number of periods before participating
+treatment that treatment can have an effect on outcomes}
+
 \item{...}{extra arguments to get the subset correct}
 }
 \value{

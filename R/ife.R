@@ -3,8 +3,11 @@
 #' @description Compute treatment effects in interactive fixed effects models
 #'  with a small number of time periods
 #'
-#' @inheritParams pte:pte
+#' @inheritParams ife_attgt
+#' @inheritParams pte::pte
 #' @param nife the number of interactive fixed effects to include in the model
+#' @param cband whether or not to compute a uniform (instead of
+#'  pointwise) confidence band
 #'
 #' @return \code{pte::pte_results} object
 #'

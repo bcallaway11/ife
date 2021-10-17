@@ -9,6 +9,8 @@
 #' @param g the current group
 #' @param tp the current time period
 #' @param nife the number of interactive fixed effects
+#' @param anticipation number of periods before participating
+#'  treatment that treatment can have an effect on outcomes
 #' @param ... extra arguments to get the subset correct
 #'
 #' @return list that contains correct subset of data, \code{n1}

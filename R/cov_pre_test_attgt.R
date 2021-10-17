@@ -9,7 +9,7 @@
 #'  equally spaced but 2 years apart.  In this case, to allow for treatment
 #'  anticipation of 2 year (<=> 1 period), set \code{anticipation = 1}.
 #'
-#' @return
+#' @return pte::attgt_if object
 cov_pre_test_attgt <- function(gt_data, nife=1,
                       xformla=~1, zformla, anticipation=0,  
                       ret_ife_regs=FALSE, ...) {

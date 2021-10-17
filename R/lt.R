@@ -3,7 +3,7 @@
 #' @description Compute treatment effects in model with linear trends for
 #' untreated potential outcomes
 #'
-#' @inheritParams pte:pte
+#' @inheritParams ife
 #'
 #' @return \code{pte::pte_results} object
 #'

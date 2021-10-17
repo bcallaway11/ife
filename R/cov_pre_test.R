@@ -3,7 +3,7 @@
 #' @description Pre-test for time invariant effects of covariates in an
 #'  interactive fixed effects model for untreated potential outcomes
 #'
-#' @inheritParams pte:pte
+#' @inheritParams ife
 #' @param nife the number of interactive fixed effects to include in the model
 #'
 #' @return \code{pte::pte_results} object
@@ -27,11 +27,11 @@ cov_pre_test <- function(yname,
                              idname=idname,
                              data=data,
                              anticipation=anticipation,
-                             cband=cband,
-                             alp=alp,
-                             boot_type=boot_type,
-                             biters=biters,
-                             cl=cl)
+                             cband=FALSE,
+                             alp=.05,
+                             boot_type="multiplier",
+                             biters=100,
+                             cl=1)
   
   res <- compute.pte(ptep=ptep,
                      subset_fun=cov_pre_test_subset,
@@ -60,6 +60,13 @@ cov_pre_test <- function(yname,
   out_regs
 }
 
+
+#' @title summary.cov_pretest_results
+#'
+#' @param object a cov_pretest_results object
+#' @param ... other arguments
+#'
+#' @export
 summary.cov_pretest_results <- function(object, ...) {
   gt_ests <- lapply(object, function(ob) ob$extra_gt_returns$ife_reg)
   names(gt_ests) <- sapply(object, function(ob) {

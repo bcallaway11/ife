@@ -12,10 +12,7 @@
 #' adoption setup with panel data using a linear trends model for untreated potential
 #' outcomes.
 #'
-#' @param data the full dataset
-#' @param g the current group
-#' @param tp the current time period
-#' @param ... extra arguments to get the subset correct
+#' @inheritParams ife_subset
 #'
 #' @return list that contains correct subset of data, \code{n1}
 #'  number of observations

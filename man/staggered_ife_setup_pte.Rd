@@ -32,11 +32,28 @@ staggered_ife_setup_pte(
 
 \item{data}{balanced panel data}
 
+\item{required_pre_periods}{the number of pre-treatment time
+periods that are needed}
+
+\item{nife}{the number of interactive fixed effects to include in the model}
+
+\item{anticipation}{Number of periods that treatment is anticipated.  Default
+is 0.  This is in ``periods''; e.g., code will work in time periods are
+equally spaced but 2 years apart.  In this case, to allow for treatment
+anticipation of 2 year (<=> 1 period), set \code{anticipation = 1}.}
+
+\item{cband}{whether to compute a uniform (instead of pointwise)
+confidence band}
+
 \item{alp}{significance level; default is 0.05}
+
+\item{boot_type}{type of bootstrap}
 
 \item{biters}{number of bootstrap iterations; default is 100}
 
 \item{cl}{number of clusters to be used when bootstrapping; default is 1}
+
+\item{...}{extra arguments}
 }
 \value{
 \code{pte_params} object
