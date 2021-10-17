@@ -16,13 +16,7 @@ cov_pre_test <- function(yname,
                          data,
                          nife,
                          xformla=~1,
-                         ret_ife_regs=TRUE,
-                         anticipation=0,
-                         cband=TRUE,
-                         alp=0.05,
-                         boot_type="multiplier",
-                         biters=100,
-                         cl=1) {
+                         anticipation=0) {
 
 
   required_pre_periods <- nife+1
@@ -32,6 +26,7 @@ cov_pre_test <- function(yname,
                              tname=tname,
                              idname=idname,
                              data=data,
+                             anticipation=anticipation,
                              cband=cband,
                              alp=alp,
                              boot_type=boot_type,
@@ -47,7 +42,28 @@ cov_pre_test <- function(yname,
                      ret_ife_regs=TRUE)
   
   out_regs <- res$extra_gt_returns
-  keepers <- sapply(out_regs, function(or) !is.na(or$extra_gt_returns))
+  keepers <- sapply(out_regs, function(or) {
+    (!is.na(or$extra_gt_returns)) & (or$group - or$time.period > anticipation) 
+  })
 
-  out_regs[keepers]
+
+  # groups and time periods back to originals
+  out_regs <- out_regs[keepers]
+  original_t <- unique(data[,tname])
+  out_regs <- lapply(out_regs, function(or) {
+    or$group <- t2orig(or$group, original_t)
+    or$time.period <- t2orig(or$time.period, original_t)
+    or
+  })
+
+  class(out_regs) <- "cov_pretest_results"
+  out_regs
+}
+
+summary.cov_pretest_results <- function(object, ...) {
+  gt_ests <- lapply(object, function(ob) ob$extra_gt_returns$ife_reg)
+  names(gt_ests) <- sapply(object, function(ob) {
+    paste0("g:",ob$group, ",t:", ob$time.period)
+  })
+  modelsummary(gt_ests, stars=c("*"=.05), output="markdown")
 }

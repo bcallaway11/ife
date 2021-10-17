@@ -14,11 +14,6 @@ setup_cov_pre_test <- function(yname,
                                data,
                                nife=1,
                                anticipation=0,
-                               cband=TRUE,
-                               alp=0.05,
-                               boot_type=boot_type,
-                               biters=100,
-                               cl=1,
                                ...) {
 
   required_pre_periods <- nife + 1
@@ -84,11 +79,11 @@ setup_cov_pre_test <- function(yname,
                        data=data,
                        glist=groups,
                        tlist=time.periods,
-                       cband=cband,
-                       alp=alp,
-                       boot_type=boot_type,
-                       biters=biters,
-                       cl=cl)
+                       cband=TRUE, # never use anything from here after
+                       alp=0.05,
+                       boot_type="multiplier",
+                       biters=100,
+                       cl=1)
 
   params
 }
