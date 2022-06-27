@@ -19,7 +19,8 @@ linear_trends <- function(yname,
                           alp=0.05,
                           boot_type="multiplier",
                           biters=100,
-                          cl=1) {
+                          cl=1,
+                          ...) {
 
   # set this in order to use `setup_pte` function provided by `pte` package
   required_pre_periods <- 2
@@ -39,7 +40,8 @@ linear_trends <- function(yname,
              alp=alp,
              boot_type=boot_type,
              biters=biters,
-             cl=cl)
+             cl=cl,
+             ...)
 
   res
 }

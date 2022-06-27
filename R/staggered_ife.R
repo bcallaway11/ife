@@ -28,7 +28,7 @@ staggered_ife <- function(yname,
   # set this in order to use `setup_pte` function provided by `pte` package
   required_pre_periods <- nife+1
   
-  res <- pte(yname=yname,
+  res <- pte2(yname=yname,
              gname=gname,
              tname=tname,
              idname=idname,
