@@ -1,8 +1,6 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-
 <!-- badges: start -->
-
 <!-- badges: end -->
 
 # Interactive Fixed Effects (ife) Package
@@ -46,17 +44,17 @@ summary(res)
 #> 
 #> Overall ATT:  
 #>        ATT    Std. Error     [ 90%  Conf. Int.]  
-#>  -3976.881      1090.314  -5770.288   -2183.473 *
+#>  -3976.881      1154.053   -5875.13   -2078.632 *
 #> 
 #> 
 #> Dynamic Effects:
 #>  Event Time   Estimate Std. Error     [90%  Conf. Band]  
-#>          -6   -15.0413   799.3065 -1329.784   1299.7008  
-#>          -4  -131.3128   704.7982 -1290.603   1027.9771  
-#>          -2  -664.5203   583.2066 -1623.810    294.7692  
-#>           0 -3946.5861  1029.6344 -5640.184  -2252.9882 *
-#>           2 -4281.1615  1448.1993 -6663.237  -1899.0856 *
-#>           4 -1454.0791  2638.9179 -5794.713   2886.5545  
+#>          -6   -15.0413   877.0791 -1457.708   1427.6254  
+#>          -4  -131.3128   706.8407 -1293.962   1031.3367  
+#>          -2  -664.5203   616.2784 -1678.208    349.1674  
+#>           0 -3946.5861  1005.2798 -5600.124  -2293.0480 *
+#>           2 -4281.1615  1473.8412 -6705.415  -1856.9084 *
+#>           4 -1454.0791  2649.2082 -5811.639   2903.4807  
 #> ---
 #> Signif. codes: `*' confidence band does not cover 0
 ggpte(res) + ylim(c(-7000,7000))
@@ -66,13 +64,11 @@ ggpte(res) + ylim(c(-7000,7000))
 
 We also have some code for running *individual-specific linear trends
 models*. These are a special case of the interactive fixed effects
-models that we consider in the paper, but where the factors
-![F\_t](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;F_t
-"F_t") are restricted to be equal to
-![t](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;t
-"t"). We mostly argue *against* these sorts of models in the paper, but
-one advantage is that they do not require any restrictions/assumptions
-about finding a covariate whose effects do not change over time.
+models that we consider in the paper, but where the factors $F_t$ are
+restricted to be equal to $t$. We mostly argue *against* these sorts of
+models in the paper, but one advantage is that they do not require any
+restrictions/assumptions about finding a covariate whose effects do not
+change over time.
 
 This code also implements a version of linear trends that is specific to
 untreated potential outcomes. Presumably, many of the same criticisms
@@ -99,17 +95,17 @@ summary(lt_res)
 #> 
 #> Overall ATT:  
 #>        ATT    Std. Error     [ 90%  Conf. Int.]  
-#>  -3463.467      1295.812  -5594.889   -1332.045 *
+#>  -3463.467      1353.403  -5689.617   -1237.316 *
 #> 
 #> 
 #> Dynamic Effects:
 #>  Event Time   Estimate Std. Error     [90%  Conf. Band]  
-#>          -6   -17.6954   813.6816 -1356.083   1320.6918  
-#>          -4   -69.4965   682.0795 -1191.418   1052.4244  
-#>          -2  -586.0360   657.4395 -1667.428    495.3557  
-#>           0 -3599.9237  1129.9602 -5458.543  -1741.3045 *
-#>           2 -3628.0465  1669.3106 -6373.818   -882.2749 *
-#>           4   326.6318  3096.5574 -4766.752   5420.0155  
+#>          -6   -17.6954   848.4451 -1413.264   1377.8727  
+#>          -4   -69.4965   726.2640 -1264.095   1125.1015  
+#>          -2  -586.0360   602.1618 -1576.504    404.4319  
+#>           0 -3599.9237  1105.5363 -5418.369  -1781.4783 *
+#>           2 -3628.0465  1718.0739 -6454.027   -802.0664 *
+#>           4   326.6318  3128.7095 -4819.637   5472.9010  
 #> ---
 #> Signif. codes: `*' confidence band does not cover 0
 ggpte(lt_res) + ylim(c(-7000,7000))

@@ -1,6 +1,6 @@
 Package: ife
 Title: Treatment Effects in Interactive Fixed Effects Models
-Version: 1.0.0
+Version: 0.0.901
 Authors@R: 
     c(person(given = "Brantly",
             family = "Callaway",
