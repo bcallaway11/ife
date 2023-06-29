@@ -41,18 +41,23 @@ staggered_ife_attgt <- function(gt_data,
   # split pre and post data, eventually merge them back
   post.data <- subset(this.data, name == "post")
   post.data <- post.data %>% dplyr::rename(dY_post=dY_base)
-  pre.data <- subset(this.data, name == "pre")
 
-  # convert pre-data into cross-sectional data
-  pre.data <- pre.data %>%
-    select(id, period, dY_base) %>%
-    dplyr::group_by(id) %>%
-    tidyr::pivot_wider(names_prefix="dY_base", names_from=period, values_from=dY_base) %>%
-    as.data.frame()
-
-  # merge data, this is one row per unit and can use to run regressions
-  # to identify ife model
-  this.data <- dplyr::inner_join(post.data, pre.data, by="id")
+  if (nife > 0) {
+    pre.data <- subset(this.data, name == "pre")
+    
+    # convert pre-data into cross-sectional data
+    pre.data <- pre.data %>%
+      select(id, period, dY_base) %>%
+      dplyr::group_by(id) %>%
+      tidyr::pivot_wider(names_prefix="dY_base", names_from=period, values_from=dY_base) %>%
+      as.data.frame()
+    
+    # merge data, this is one row per unit and can use to run regressions
+    # to identify ife model
+    this.data <- dplyr::inner_join(post.data, pre.data, by="id")
+  } else {
+    this.data <- post.data
+  }
 
   # hack to get extra column names for dY variables
   dY_names <- this.data %>% select(starts_with("dY_base")) %>% colnames
@@ -62,7 +67,11 @@ staggered_ife_attgt <- function(gt_data,
 
   #-----------------------------------------------------------------------------
   # this is only change relative to ife_attgt
-  zformla <- BMisc::toformula(yname="", xnames=c(BMisc::rhs.vars(xformla), "as.factor(G)"))
+  if (nife > 0) {
+    zformla <- BMisc::toformula(yname="", xnames=c(BMisc::rhs.vars(xformla), "as.factor(G)"))
+  } else {
+    zformla <- ~1
+  }
   #-----------------------------------------------------------------------------
 
   
@@ -71,7 +80,7 @@ staggered_ife_attgt <- function(gt_data,
   comparison_ids <- this.comparison$id
   comparison_p <- length(comparison_ids)/this.n
 
-  ife_reg <- ivreg::ivreg(outcome_formla, instruments=zformla, data=this.comparison)
+  ife_reg <- AER::ivreg(outcome_formla, instruments=zformla, data=this.comparison)
   # get the influence function from the first step
   first_step_if <- as.matrix(sandwich::estfun(ife_reg))
   first_step_if <- first_step_if %*% sandwich::bread(ife_reg)
@@ -84,7 +93,7 @@ staggered_ife_attgt <- function(gt_data,
   # this is also different, due to having to hack AER
   #-----------------------------------------------------------------------------
   this.treated <- subset(this.data, D==1)
-  this.treated$G <- 0 # doesn't do anything, but stops AER from crashing
+  this.treated$G <- unique(this.comparison$G)[1] # doesn't do anything, but stops AER from crashing
   attgt <- mean(subset(this.data, D==1)$dY_post) - mean(predict(ife_reg, newdata=this.treated))
 
   # get influence function for this part too

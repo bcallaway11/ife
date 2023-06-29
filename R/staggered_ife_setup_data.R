@@ -87,8 +87,8 @@ staggered_ife_setup_pte <- function(yname,
   #-----------------------------------------------------------------------------
   # this is what's different relative to `setup_pte`
   #-----------------------------------------------------------------------------
-  last_period_idx_plus_one <- which.max(time.periods) + 1
-  time.periods <- time.periods[ -seq(last_period_idx_plus_one, last_period_idx_plus_one - nife)]
+  last_attgt_period_idx <- tail(which(sapply(time.periods, function(tp) sum(tp<groups)) >= nife),1)
+  time.periods <- time.periods[1:last_attgt_period_idx]
   #-----------------------------------------------------------------------------
   
   groups <- groups[groups %in% time.periods]

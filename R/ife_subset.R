@@ -41,7 +41,7 @@ ife_subset <- function(data, g, tp, nife, anticipation=0, ...) {
   #----------------------------------------------------
 
   # get group g and not-yet-treated group
-  this.data <- subset(data, G==g | ( G>(tp+anticipation) & G>=g )| G==0) 
+  this.data <- subset(data, G==g | ( G>(tp+anticipation) & G>=g ) | G==0) 
   
   
   # get current period and base period data
