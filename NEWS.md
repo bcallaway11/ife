@@ -1,6 +1,6 @@
 # 0.0.901
 
-* Progress on tests and generating simulated data
+* Progress on tests and generating simulated data.
 
 * Adds code for Callaway and Tsyawo (2023) that is based on exploiting staggered treatment adoption to generate additional moment conditions in order to recover the parameters of an interactive fixed effects model for untreated potential outcomes.
 
