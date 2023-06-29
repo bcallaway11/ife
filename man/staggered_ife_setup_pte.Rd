@@ -20,6 +20,23 @@ staggered_ife_setup_pte(
   cl = 1,
   ...
 )
+
+staggered_ife_setup_pte(
+  yname,
+  gname,
+  tname,
+  idname,
+  data,
+  required_pre_periods = 1,
+  nife = 1,
+  anticipation = 0,
+  cband = TRUE,
+  alp = 0.05,
+  boot_type = boot_type,
+  biters = 100,
+  cl = 1,
+  ...
+)
 }
 \arguments{
 \item{yname}{Name of outcome in \code{data}}
@@ -57,9 +74,15 @@ confidence band}
 }
 \value{
 \code{pte_params} object
+
+\code{pte_params} object
 }
 \description{
 Estimate treatment effects in an interactive fixed effects
 model for untreated potential outcomes by exploiting staggered treatment
 adoption.
+
+This function sets up the periods/groups for using
+\code{staggered_ife_attgt2} (the main approach proposed in Callaway and
+Tsyawo (2023)).
 }

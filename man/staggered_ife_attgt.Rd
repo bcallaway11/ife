@@ -12,6 +12,15 @@ staggered_ife_attgt(
   ret_ife_regs = FALSE,
   ...
 )
+
+staggered_ife_attgt(
+  gt_data,
+  nife = 1,
+  xformla = ~1,
+  anticipation = 0,
+  ret_ife_regs = FALSE,
+  ...
+)
 }
 \arguments{
 \item{gt_data}{data frame that is local to the specific groups
@@ -33,9 +42,23 @@ anticipation of 2 year (<=> 1 period), set \code{anticipation = 1}.}
 }
 \value{
 \code{pte::attgt_if} object
+
+\code{pte::attgt_if} object
 }
 \description{
 Computes estimates of group-time average treatment
 effects in an interactive treatment effects model for untreated
-potential outcomes by exploiting staggered treatment adoption
+potential outcomes by exploiting staggered treatment adoption as
+in Callaway and Tsyawo (2023).  This function is based on the local-
+differencing approach (similar to the approach proposed in
+Callaway and Karami).  See \code{staggered_ife_attgt2} for the main approach
+discussed in the paper where all pre-treatment periods are used
+to estimate the interactive fixed effects model.
+
+Computes estimates of group-time average treatment
+effects in an interactive treatment effects model for untreated
+potential outcomes by exploiting staggered treatment adoption as
+in Callaway and Tsyawo (2023).  This function uses the main approach
+discussed in the paper where all pre-treatment periods are used
+to estimate the interactive fixed effects model.
 }
