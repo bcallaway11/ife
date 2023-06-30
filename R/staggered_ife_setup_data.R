@@ -130,7 +130,7 @@ staggered_ife_setup_pte <- function(yname,
 #'
 #' @return \code{pte_params} object
 #' @export
-staggered_ife_setup_pte <- function(yname,
+staggered_ife_setup_data2 <- function(yname,
                                     gname,
                                     tname,
                                     idname,
