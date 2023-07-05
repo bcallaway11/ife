@@ -192,6 +192,11 @@ staggered_ife_setup_data2 <- function(yname,
   # these are the ones we loop over below
   time.periods <- sort(time.periods)[-seq(1,required_pre_periods)]
   
+  # include first period if nife==-1 (=> level comparisons)
+  if (nife==-1) {
+    time.periods <- c(1,time.periods)
+  }
+  
   #-----------------------------------------------------------------------------
   # this is what's different relative to `setup_pte`
   #-----------------------------------------------------------------------------
