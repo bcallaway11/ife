@@ -11,6 +11,7 @@ staggered_ife2(
   idname,
   data,
   nife,
+  weighting_matrix = "gmm",
   xformla = ~1,
   ret_ife_regs = TRUE,
   anticipation = 0,
@@ -33,6 +34,11 @@ staggered_ife2(
 \item{data}{balanced panel data}
 
 \item{nife}{the number of interactive fixed effects to include in the model}
+
+\item{weighting_matrix}{which weighting matrix to use in the first step estimates.
+The default is "gmm" which delivers two-step gmm estimates.  Other options are
+"2sls" and "identity" which uses 2sls in the first stage or uses an identity
+weighting matrix in the first stage.}
 
 \item{xformla}{Formula for which covariates to include in the model.  Default is ~1.}
 

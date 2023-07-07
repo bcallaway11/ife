@@ -61,6 +61,10 @@ staggered_ife <- function(yname,
 #'
 #' @inheritParams ife
 #' @param nife the number of interactive fixed effects to include in the model
+#' @param weighting_matrix which weighting matrix to use in the first step estimates.
+#'  The default is "gmm" which delivers two-step gmm estimates.  Other options are
+#'  "2sls" and "identity" which uses 2sls in the first stage or uses an identity
+#'  weighting matrix in the first stage.
 #'
 #' @return \code{pte::pte_results} object
 #'
@@ -71,6 +75,7 @@ staggered_ife2 <- function(yname,
                           idname,
                           data,
                           nife,
+                          weighting_matrix="gmm",
                           xformla=~1,
                           ret_ife_regs=TRUE,
                           anticipation=0,
@@ -92,6 +97,7 @@ staggered_ife2 <- function(yname,
               subset_fun=keep_all_pretreatment_subset,
               attgt_fun=staggered_ife_attgt2,
               nife=nife,
+              weighting_matrix=weighting_matrix, 
               xformla=xformla,
               ret_ife_regs=ret_ife_regs,
               required_pre_periods=required_pre_periods,

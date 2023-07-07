@@ -143,10 +143,12 @@ staggered_ife_attgt <- function(gt_data,
 #'  to estimate the interactive fixed effects model.
 #'
 #' @inheritParams ife_attgt
+#' @inheritParams staggered_ife2
 #' @return \code{pte::attgt_if} object
 #' @export
 staggered_ife_attgt2 <- function(gt_data,
                                 nife=1,
+                                weighting_matrix="gmm",
                                 xformla=~1,
                                 anticipation=0,  
                                 ret_ife_regs=FALSE, ...) {
@@ -257,22 +259,32 @@ staggered_ife_attgt2 <- function(gt_data,
     # this is the main case
     Z_untreated <- model.matrix(~-1 + as.factor(G), data=post.data_untreated)
   }
-  W <- solve(t(Z_untreated)%*%Z_untreated/n_untreated) # 2sls weighting matrix
+  
+  # settle on weighting matrix
+  if (weighting_matrix == "identity") {
+    W <- diag(nrow=ncol(Z_untreated))
+  } else { # 2sls weighting matrix
+    W <- solve(t(Z_untreated)%*%Z_untreated/n_untreated) # 2sls weighting matrix
+  }
   
   first_step_params <- solve( t(Gamma_gt) %*% W %*% Gamma_gt ) %*% t(Gamma_gt) %*% W %*% LdY_base
   first_step_yhat <- pre_untreated_pca_nife %*% first_step_params
   first_step_ehat <- post.data_untreated$dY_base - first_step_yhat
   
   Ze_untreated <- Z_untreated*as.numeric(first_step_ehat)
-  W_opt <- t(Ze_untreated)%*%Ze_untreated/n_untreated
   
-  # same code, new weighting matrix
-  first_step_params <- solve( t(Gamma_gt) %*% W_opt %*% Gamma_gt ) %*% t(Gamma_gt) %*% W_opt %*% LdY_base
-  first_step_yhat <- pre_untreated_pca_nife %*% first_step_params
-  first_step_ehat <- post.data_untreated$dY_base - first_step_yhat
+  # two-step gmm, if requested
+  if (weighting_matrix == "gmm") {
+    W <- t(Ze_untreated)%*%Ze_untreated/n_untreated
+    
+    # same code, new weighting matrix
+    first_step_params <- solve( t(Gamma_gt) %*% W %*% Gamma_gt ) %*% t(Gamma_gt) %*% W %*% LdY_base
+    first_step_yhat <- pre_untreated_pca_nife %*% first_step_params
+    first_step_ehat <- post.data_untreated$dY_base - first_step_yhat
+  }
   
-  # calculate influence function for firste-step estimation
-  first_step_if <- t(solve( t(Gamma_gt) %*% W_opt %*% Gamma_gt ) %*% t(Gamma_gt) %*% W_opt %*% t(Ze_untreated))
+  # calculate influence function for first-step estimation
+  first_step_if <- t(solve( t(Gamma_gt) %*% W %*% Gamma_gt ) %*% t(Gamma_gt) %*% W %*% t(Ze_untreated))
   
   # if requested, we'll return the first-step estimates, code to do it:
   first_step_se <- sqrt(diag(t(first_step_if)%*%first_step_if)) / sqrt(n_untreated)
@@ -311,10 +323,13 @@ staggered_ife_attgt2 <- function(gt_data,
   
   # adjust first step influence function to account for where it enters
   # expression on ATT(g,t)
-  first_step_if <- -(first_step_if %*% as.matrix(m_pca_nife)) /(1-pg)
+  first_step_if <- -(first_step_if %*% as.matrix(m_pca_nife)) / (1-pg) 
   
-  # Q: do we need a component of the variance that comes from estimating pg
-
+  #browser()
+  
+  # estimating pg component of variance
+  # pg_if <- this.attgt*( (1*(post.data$G==this.g)) - pg) / pg
+  
   # set up the overall influence function to return
   inf_func <- rep(0, this.n)
   idlist <- post.data$id
@@ -322,7 +337,24 @@ staggered_ife_attgt2 <- function(gt_data,
   comparison_ids <- post.data_untreated$id
   inf_func[idlist %in% comparison_ids] <- as.numeric(first_step_if)
   inf_func[idlist %in% treated_ids] <- as.numeric(second_step_if)
+  # inf_func <- inf_func - pg_if
     
+  #browser()
+  
+  #------------------------------------------------------------------------
+  #  check standard errors manually, can delete this later
+  #------------------------------------------------------------------------
+  V <- t(inf_func) %*% inf_func / this.n
+  se <- sqrt(V)/sqrt(this.n)
+  se
+  V1 <- t(first_step_if)%*%first_step_if / this.n
+  se1 <- sqrt(V1)/sqrt(this.n)
+  V2 <- t(second_step_if)%*%second_step_if / this.n
+  se2 <- sqrt(V2)/sqrt(this.n)
+  se1
+  se2
+  V1 + V2
+  
   # #------------------------------------------------------------------------
   # #  some model selection code from ife function...not currently used
   # #------------------------------------------------------------------------

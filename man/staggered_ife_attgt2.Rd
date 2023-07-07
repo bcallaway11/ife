@@ -7,6 +7,7 @@
 staggered_ife_attgt2(
   gt_data,
   nife = 1,
+  weighting_matrix = "gmm",
   xformla = ~1,
   anticipation = 0,
   ret_ife_regs = FALSE,
@@ -19,6 +20,11 @@ and times for which we'll be computing a treatment efect
 estimate.}
 
 \item{nife}{The number of interactive fixed effects.  Default is 1.}
+
+\item{weighting_matrix}{which weighting matrix to use in the first step estimates.
+The default is "gmm" which delivers two-step gmm estimates.  Other options are
+"2sls" and "identity" which uses 2sls in the first stage or uses an identity
+weighting matrix in the first stage.}
 
 \item{xformla}{Formula for which covariates to include in the model.  Default is ~1.}
 
