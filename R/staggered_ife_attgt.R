@@ -218,8 +218,8 @@ staggered_ife_attgt2 <- function(gt_data,
     
     Gamma_gt <- pre.data_untreated %>%
       select(G, starts_with("PC")) %>%
-      group_by(G) %>% 
-      summarize(across(starts_with("PC"), mean)) %>%
+      group_by(G) %>%
+      summarize_all("mean") %>% 
       select(starts_with("PC")) %>% as.matrix()
     
     #Gamma_gt <- pre.data_untreated %>%
@@ -235,7 +235,7 @@ staggered_ife_attgt2 <- function(gt_data,
   n_untreated <- nrow(post.data_untreated)
   LdY_base <- post.data_untreated %>% 
     group_by(G) %>%
-    summarize(dY_base=mean(dY_base))
+    dplyr::summarize(dY_base=mean(dY_base))
   LdY_base <- LdY_base$dY_base
   
   # handle case w nife==0
