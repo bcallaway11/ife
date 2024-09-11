@@ -1,0 +1,5 @@
+# _pkgdown.yml
+
+# Use Bootstrap 5
+template:
+  bootstrap: 5

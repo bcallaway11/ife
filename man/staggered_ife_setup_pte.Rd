@@ -37,10 +37,8 @@ periods that are needed}
 
 \item{nife}{the number of interactive fixed effects to include in the model}
 
-\item{anticipation}{Number of periods that treatment is anticipated.  Default
-is 0.  This is in ``periods''; e.g., code will work in time periods are
-equally spaced but 2 years apart.  In this case, to allow for treatment
-anticipation of 2 year (<=> 1 period), set \code{anticipation = 1}.}
+\item{anticipation}{how many periods before the treatment actually takes
+place that it can have an effect on outcomes}
 
 \item{cband}{whether to compute a uniform (instead of pointwise)
 confidence band}
