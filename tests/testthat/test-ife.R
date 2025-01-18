@@ -17,7 +17,7 @@
 library(tidyr)
 library(BMisc)
 library(dplyr)
-library(pte)
+library(ptetools)
 
 #-------------------------------------------------------------------------------
 #  Basic functionality

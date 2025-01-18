@@ -157,7 +157,7 @@ staggered_ife_attgt2 <- function(gt_data,
   this.n <- length(unique(gt_data$id))
   this.g <- unique(subset(gt_data, D==1)$G)
   
-  if (anticipation != 0) stop("anticipation is not yet supported")
+  # if (anticipation != 0) stop("anticipation is not yet supported")
   if ( !(xformla==~1) ) stop("including covariates is not yet supported")
   
   # figure out the base period...(g-1)
