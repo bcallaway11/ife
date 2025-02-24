@@ -5,7 +5,7 @@
 #'
 #' @inheritParams ife
 #'
-#' @return \code{pte::pte_results} object
+#' @return \code{ptetools::pte_results} object
 #'
 #' @export
 linear_trends <- function(yname,

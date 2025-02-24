@@ -20,7 +20,7 @@
 #'  to estimate the interactive fixed effects model.
 #'
 #' @inheritParams ife_attgt
-#' @return \code{pte::attgt_if} object
+#' @return \code{ptetools::attgt_if} object
 #' @export
 staggered_ife_attgt <- function(gt_data,
                                 nife=1,
@@ -144,7 +144,7 @@ staggered_ife_attgt <- function(gt_data,
 #'
 #' @inheritParams ife_attgt
 #' @inheritParams staggered_ife2
-#' @return \code{pte::attgt_if} object
+#' @return \code{ptetools::attgt_if} object
 #' @export
 staggered_ife_attgt2 <- function(gt_data,
                                 nife=1,

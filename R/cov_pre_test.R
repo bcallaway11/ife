@@ -6,7 +6,7 @@
 #' @inheritParams ife
 #' @param nife the number of interactive fixed effects to include in the model
 #'
-#' @return \code{pte::pte_results} object
+#' @return \code{ptetools::pte_results} object
 #'
 #' @export
 cov_pre_test <- function(yname,

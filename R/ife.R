@@ -4,12 +4,12 @@
 #'  with a small number of time periods
 #'
 #' @inheritParams ife_attgt
-#' @inheritParams pte::pte
+#' @inheritParams ptetools::pte
 #' @param nife the number of interactive fixed effects to include in the model
 #' @param cband whether or not to compute a uniform (instead of
 #'  pointwise) confidence band
 #'
-#' @return \code{pte::pte_results} object
+#' @return \code{ptetools::pte_results} object
 #'
 #' @export
 ife <- function(yname,

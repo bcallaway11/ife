@@ -1,6 +1,6 @@
 #-----------------------------------------------------------------------------
 #
-# This is copy and paste of pte::setup_data, but adjusted to drop some
+# This is copy and paste of ptetools::setup_data, but adjusted to drop some
 # periods at the end (where we do not have enough groups left to identify
 # the model)
 #
@@ -13,7 +13,7 @@
 #'  adoption.
 #'
 #' @inheritParams ife_setup_pte
-#' @inheritParams pte::setup_pte
+#' @inheritParams ptetools::setup_pte
 #' @param required_pre_periods the number of pre-treatment time
 #'  periods that are needed
 #' @param cband whether to compute a uniform (instead of pointwise)
@@ -121,7 +121,7 @@ staggered_ife_setup_pte <- function(yname,
 #'  Tsyawo (2023)).
 #'
 #' @inheritParams ife_setup_pte
-#' @inheritParams pte::setup_pte
+#' @inheritParams ptetools::setup_pte
 #' @param required_pre_periods the number of pre-treatment time
 #'  periods that are needed
 #' @param cband whether to compute a uniform (instead of pointwise)

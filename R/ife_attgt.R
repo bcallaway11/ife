@@ -29,7 +29,7 @@
 #'  anticipation of 2 year (<=> 1 period), set \code{anticipation = 1}.
 #' @param ... extra arguments
 #'
-#' @return pte::attgt_if object
+#' @return ptetools::attgt_if object
 ife_attgt <- function(gt_data, nife=1,
                       xformla=~1, zformla, anticipation=0,  
                       ret_ife_regs=FALSE, ...) {

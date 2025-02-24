@@ -2,7 +2,7 @@
 #'
 #' @description Setup panel treatment effects parameters
 #'
-#' @inheritParams pte::pte_params
+#' @inheritParams ptetools::pte_params
 #' @inheritParams ife
 #' @param ... extra arguments
 #'
