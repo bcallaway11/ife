@@ -55,7 +55,7 @@ parameter.}
 \item{cl}{number of clusters to be used when bootstrapping; default is 1}
 }
 \value{
-\code{pte::pte_results} object
+\code{ptetools::pte_results} object
 }
 \description{
 Compute treatment effects in model with linear trends for

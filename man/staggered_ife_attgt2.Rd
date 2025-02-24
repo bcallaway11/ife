@@ -38,7 +38,7 @@ anticipation of 2 year (<=> 1 period), set \code{anticipation = 1}.}
 \item{...}{extra arguments}
 }
 \value{
-\code{pte::attgt_if} object
+\code{ptetools::attgt_if} object
 }
 \description{
 Computes estimates of group-time average treatment

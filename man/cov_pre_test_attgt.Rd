@@ -37,7 +37,7 @@ anticipation of 2 year (<=> 1 period), set \code{anticipation = 1}.}
 \item{...}{extra arguments}
 }
 \value{
-pte::attgt_if object
+ptetools::attgt_if object
 }
 \description{
 Computes estimates of ATT(g,t), overall ATT, and dynamic effects

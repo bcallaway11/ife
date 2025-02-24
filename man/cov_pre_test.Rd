@@ -36,7 +36,7 @@ equally spaced but 2 years apart.  In this case, to allow for treatment
 anticipation of 2 year (<=> 1 period), set \code{anticipation = 1}.}
 }
 \value{
-\code{pte::pte_results} object
+\code{ptetools::pte_results} object
 }
 \description{
 Pre-test for time invariant effects of covariates in an
